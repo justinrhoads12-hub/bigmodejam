@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://bbegiegyreqjg"]
+
+[ext_resource type="Texture2D" uid="uid://dtjm4d5hqnqsp" path="res://sprites/narwahl-Sheet.png" id="1_2ovdl"]
+[ext_resource type="Script" uid="uid://dp8yxsj8apij4" path="res://scenes/narwhal_enemy.gd" id="1_flwe4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_flwe4"]
+atlas = ExtResource("1_2ovdl")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wuhlr"]
+atlas = ExtResource("1_2ovdl")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4i71s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_flwe4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wuhlr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oj70j"]
+radius = 7.0
+height = 20.0
+
+[node name="NarwhalEnemy" type="CharacterBody2D"]
+script = ExtResource("1_flwe4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -16)
+sprite_frames = SubResource("SpriteFrames_4i71s")
+
+[node name="BodyHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, -10)
+shape = SubResource("CapsuleShape2D_oj70j")
+
+[node name="RoamingTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="RoamingTimer" to="." method="_on_roaming_timer_timeout"]
